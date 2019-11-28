@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "json"
+
+output = {
+  "version" => { "build_id" => ENV["BUILD_ID"] },
+  "metadata" => [],
+}
+
+puts JSON.pretty_generate(output)

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "json"
+
+output = [{ "version" => "" }]
+
+puts JSON.pretty_generate(output)

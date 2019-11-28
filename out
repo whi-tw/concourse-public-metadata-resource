@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require "json"
+
+PROVIDED_DIR = ARGV[0]
+
+input=STDIN.read
+
+DIRECTORY = JSON.parse(input)["params"]["directory"]
+
+output = {
+  "version" => { "build_id" => ENV["BUILD_ID"] },
+  "metadata" => [
+    { "name" => "BUILD_NAME", "value" => ENV["BUILD_NAME"] },
+  ],
+}
+WORKING_DIR = File.join(PROVIDED_DIR, DIRECTORY)
+Dir.foreach(WORKING_DIR) do |filename|
+  path = File.join(WORKING_DIR, filename)
+  next if File.directory? path
+  hash = {
+    "name" => filename,
+    "value" => File.read(path).to_s.chomp,
+  }
+  output["metadata"] << hash
+end
+
+puts JSON.pretty_generate(output)
